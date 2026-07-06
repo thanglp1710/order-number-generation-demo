@@ -1,0 +1,240 @@
+services:
+  generator-0:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=0
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-1:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=1
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-2:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8082:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=2
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-3:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8083:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=3
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-4:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8084:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=4
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-5:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8085:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=5
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-6:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8086:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=6
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-7:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8087:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=7
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-8:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8088:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=8
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-9:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8089:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=9
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-10:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8090:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=10
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-11:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8091:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=11
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-12:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8092:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=12
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-13:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8093:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=13
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-14:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8094:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=14
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  generator-15:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8095:8080"
+    environment:
+      - PORT=8080
+      - WORKER_ID=15
+      - CUSTOM_EPOCH=2026-01-01T00:00:00Z
+      - LOG_LEVEL=info
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always

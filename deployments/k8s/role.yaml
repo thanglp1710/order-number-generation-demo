@@ -1,0 +1,15 @@
+# Grants only what the Worker ID Lease allocator needs: create the 16
+# per-slot Lease objects on first use, and get/list/watch/update them to
+# race for and renew ownership. Deliberately no "delete" — a pod releases
+# its slot by clearing holderIdentity via update (ReleaseOnCancel), never
+# by deleting the Lease object, so delete is not needed and is omitted to
+# keep the blast radius of this ServiceAccount as small as possible.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: order-generator-lease-holder
+  namespace: default
+rules:
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["get", "list", "watch", "create", "update"]

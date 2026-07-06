@@ -1,0 +1,71 @@
+# Deliberately a plain Deployment, not a StatefulSet: the whole point of the
+# Lease-based allocator is that pods no longer need stable ordinal identity
+# to get a safe, unique Worker ID — any pod can win any free slot.
+#
+# replicas is set to 20, four more than the 16 available Worker ID slots
+# (MAX_WORKERS), on purpose: this is a validation scenario. The 16 fastest
+# pods win a Lease and become Running/Ready. The remaining 4 fail to acquire
+# any slot within the bounded acquisition timeout in main.go and exit
+# non-zero, so Kubernetes restarts them with the standard CrashLoopBackOff
+# backoff — this is expected, idiomatic behavior for "wait for an exclusive
+# resource, else crash-restart," not a misconfiguration. Once one of the 16
+# holders is deleted/rescheduled, one of the 4 waiting pods will win the
+# freed slot on its next restart.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-generator
+  namespace: default
+  labels:
+    app: order-generator
+spec:
+  replicas: 20
+  selector:
+    matchLabels:
+      app: order-generator
+  template:
+    metadata:
+      labels:
+        app: order-generator
+    spec:
+      serviceAccountName: order-generator
+      containers:
+        - name: order-generator
+          image: order-number-generator:lease-demo
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: CUSTOM_EPOCH
+              value: "2026-01-01T00:00:00Z"
+            - name: LOG_LEVEL
+              value: "info"
+            - name: WORKER_ID_STRATEGY
+              value: "lease"
+            - name: MAX_WORKERS
+              value: "16"
+            - name: K8S_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "32Mi"
+            limits:
+              cpu: "250m"
+              memory: "128Mi"

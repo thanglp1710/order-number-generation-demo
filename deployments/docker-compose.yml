@@ -1,0 +1,226 @@
+x-generator: &generator
+  build:
+    context: ..
+    dockerfile: deployments/Dockerfile
+  environment:
+    PORT: "8080"
+    CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+    LOG_LEVEL: "info"
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  restart: always
+
+services:
+  generator-0:
+    <<: *generator
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "0"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-1:
+    <<: *generator
+    ports:
+      - "8081:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "1"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-2:
+    <<: *generator
+    ports:
+      - "8082:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "2"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-3:
+    <<: *generator
+    ports:
+      - "8083:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "3"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-4:
+    <<: *generator
+    ports:
+      - "8084:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "4"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-5:
+    <<: *generator
+    ports:
+      - "8085:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "5"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-6:
+    <<: *generator
+    ports:
+      - "8086:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "6"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-7:
+    <<: *generator
+    ports:
+      - "8087:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "7"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-8:
+    <<: *generator
+    ports:
+      - "8088:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "8"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-9:
+    <<: *generator
+    ports:
+      - "8089:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "9"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-10:
+    <<: *generator
+    ports:
+      - "8090:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "10"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-11:
+    <<: *generator
+    ports:
+      - "8091:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "11"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-12:
+    <<: *generator
+    ports:
+      - "8092:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "12"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-13:
+    <<: *generator
+    ports:
+      - "8093:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "13"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-14:
+    <<: *generator
+    ports:
+      - "8094:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "14"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  generator-15:
+    <<: *generator
+    ports:
+      - "8095:8080"
+    environment:
+      PORT: "8080"
+      WORKER_ID: "15"
+      CUSTOM_EPOCH: "2026-01-01T00:00:00Z"
+      LOG_LEVEL: "info"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  prometheus:
+    image: prom/prometheus:v2.53.1
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: always
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    ports:
+      - "3030:3000"
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    restart: always

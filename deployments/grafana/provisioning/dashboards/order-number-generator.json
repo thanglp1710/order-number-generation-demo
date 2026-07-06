@@ -1,0 +1,179 @@
+{
+  "title": "Bộ Sinh Mã Đơn Hàng — Giám Sát Cụm Trực Tiếp",
+  "uid": "order-number-generator",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 2,
+  "refresh": "5s",
+  "time": { "from": "now-5m", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Số Node đang hoạt động",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "prometheus-order-generator" },
+      "gridPos": { "h": 5, "w": 6, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(up{job=\"order-number-generator\"})",
+          "legendFormat": "online",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "max": 16,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 8 },
+              { "color": "green", "value": 16 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "graphMode": "none", "colorMode": "background" }
+    },
+    {
+      "id": 2,
+      "title": "RPS toàn cụm (số liệu thật, độc lập với trình duyệt)",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "prometheus-order-generator" },
+      "gridPos": { "h": 5, "w": 6, "x": 6, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(order_number_generated_total[15s]))",
+          "legendFormat": "req/s",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 6400 },
+              { "color": "red", "value": 10240 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "graphMode": "area", "colorMode": "value" }
+    },
+    {
+      "id": 3,
+      "title": "Tổng số mã đơn hàng đã sinh (lũy kế)",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "prometheus-order-generator" },
+      "gridPos": { "h": 5, "w": 6, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(order_number_generated_total)",
+          "legendFormat": "tổng",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "options": { "graphMode": "area", "colorMode": "value" }
+    },
+    {
+      "id": 4,
+      "title": "Số lần tràn Sequence (phải chờ chu kỳ tiếp theo)",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "prometheus-order-generator" },
+      "gridPos": { "h": 5, "w": 6, "x": 18, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(order_number_sequence_overflows_total)",
+          "legendFormat": "tràn",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "options": { "graphMode": "area", "colorMode": "value" }
+    },
+    {
+      "id": 5,
+      "title": "RPS theo từng Node (chứng minh phân tải đều trên cụm 16 node)",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "prometheus-order-generator" },
+      "gridPos": { "h": 9, "w": 12, "x": 0, "y": 5 },
+      "targets": [
+        {
+          "expr": "sum(rate(order_number_generated_total[15s])) by (instance)",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "reqps", "custom": { "drawStyle": "line", "fillOpacity": 10 } },
+        "overrides": []
+      }
+    },
+    {
+      "id": 6,
+      "title": "Độ trễ sinh mã p50 / p95 / p99 (toàn cụm, từ histogram thật)",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "prometheus-order-generator" },
+      "gridPos": { "h": 9, "w": 12, "x": 12, "y": 5 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(order_number_generation_latency_seconds_bucket[30s])) by (le))",
+          "legendFormat": "p50",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(order_number_generation_latency_seconds_bucket[30s])) by (le))",
+          "legendFormat": "p95",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(order_number_generation_latency_seconds_bucket[30s])) by (le))",
+          "legendFormat": "p99",
+          "refId": "C"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "s", "custom": { "drawStyle": "line", "fillOpacity": 10 } },
+        "overrides": []
+      }
+    },
+    {
+      "id": 7,
+      "title": "% so với giới hạn lý thuyết (số node online × 800 req/s)",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "prometheus-order-generator" },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 14 },
+      "targets": [
+        {
+          "expr": "100 * sum(rate(order_number_generated_total[15s])) / (sum(up{job=\"order-number-generator\"}) * 800)",
+          "legendFormat": "% trần lý thuyết",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "max": 100,
+          "min": 0,
+          "custom": { "drawStyle": "line", "fillOpacity": 20 },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 60 },
+              { "color": "red", "value": 85 }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    }
+  ]
+}
